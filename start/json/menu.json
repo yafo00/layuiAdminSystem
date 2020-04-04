@@ -1,0 +1,59 @@
+{
+  "code": 0,
+  "msg": "请求成功",
+  "data": [
+    {
+      "title": "主页",
+      "icon": "layui-icon-home",
+      "jump": "/"
+    },
+    {
+      "name": "button",
+      "title": "按钮",
+      "icon": "layui-icon-component",
+      "list": [
+        {
+          "name": "button",
+          "title": "按钮"
+        }
+      ]
+    },
+    {
+      "name": "form",
+      "title": "表单",
+      "icon": "layui-icon-app",
+      "list": [
+        {
+          "name": "group",
+          "title": "表单组合"
+        }
+      ]
+    },
+    {
+      "name": "layer",
+      "title": "通用弹层",
+      "icon": "layui-icon-template",
+      "list": [
+        {
+          "name": "list",
+          "title": "功能演示"
+        },
+        {
+          "name": "special-demo",
+          "title": "特殊示例"
+        }
+      ]
+    },
+    {
+      "name": "table",
+      "title": "表格",
+      "icon": "layui-icon-user",
+      "list": [
+        {
+          "name": "simple",
+          "title": "分页数据表格"
+        }
+      ]
+    }
+  ]
+}
