@@ -46,7 +46,7 @@
         <div class="layui-inline">
           <label class="layui-form-label">时间</label>
           <div class="layui-input-block">
-            <input type="text" class="layui-input" id="myDate" name="myTime" />
+            <input type="text" class="layui-input" id="myDate" name="myTime" placeholder="加入时间" />
           </div>
         </div>
         <div class="layui-inline">
@@ -68,6 +68,13 @@
         <button class="layui-btn btn-type" data-type="add">添加</button>
       </div>
       <table id="myTable" lay-filter="lay-filter-myTable"></table>
+      <script type="text/html" id="sexTpl">
+        {{# if (d.sex === 0) { }}
+          <span class="layui-badge layui-bg-green">男</span>
+        {{# } else { }}
+          <span class="layui-badge">女</span>
+        {{# } }}
+      </script>
       <script type="text/html" id="roleTpl">
         {{# if (d.role === 0) { }}
           <span class="layui-badge layui-bg-green">超级管理员</span>
@@ -100,7 +107,7 @@
     laydate.render({
       elem: '#myDate',
       showBottom: false,
-      trigger: 'click'
+      trigger: 'click',
     })
 
     form.render(null, 'search-form')
@@ -111,7 +118,7 @@
 
       //执行重载
       table.reload('myTable', {
-        where: field
+        where: field,
       })
     })
 
@@ -119,8 +126,61 @@
     var active = {
       // 批量删除
       batchdel: function () {},
-      // 添加
-      add: function () {}
+      // 表头添加按钮事件
+      add: function () {
+        admin.popup({
+          title: '添加',
+          area: ['500px', '600px'],
+          id: 'lay-popup-table-add',
+          success: function () {
+            view(this.id)
+              .render('myTable/editForm')
+              .done(function () {
+                laydate.render({
+                  elem: '#joinTime',
+                  showBottom: false,
+                  trigger: 'click',
+                })
+                // 渲染文件中的表单
+                form.render(null, 'edit-form')
+                //监听提交
+                form.on('submit(save-submit)', function (data) {
+                  var formData = data.field
+                  console.log(formData);
+                  // 防止重复点击
+                  var isDisabled = $('#saveSubmit').hasClass('layui-btn-disabled')
+                  if (isDisabled) {
+                    return false
+                  }
+                  //提交 Ajax 成功后，关闭当前弹层并重载表格
+                  $.ajax({
+                    url: '',
+                    type: 'post',
+                    dataType: 'json',
+                    data: formData,
+                    beforeSend: function () {
+                      $('#saveSubmit').addClass('layui-btn-disabled')
+                    },
+                    complete: function () {
+                      $('#saveSubmit').removeClass('layui-btn-disabled')
+                    },
+                    success: function (res) {
+                      console.log(res)
+                      if (res.code === 0) {
+                        // 重载表格
+                        layui.table.reload('myTable')
+                        layer.close(index) //执行关闭
+                      } else {
+                        layer.alert(res.msg, { title: '提示信息', icon: 5 })
+                      }
+                    },
+                  })
+                  return false
+                })
+              })
+          },
+        })
+      },
     }
 
     // 监听表头点击事件

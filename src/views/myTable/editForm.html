@@ -3,7 +3,7 @@
     <label class="layui-form-label">用户名</label>
     <div class="layui-input-inline">
       <script type="text/html" template>
-        <input type="text" class="layui-input" name="username" value="{{ d.params.username || '' }}" lay-verify="required" placeholder="请输入用户名" autocomplete="off">
+        <input type="text" class="layui-input" name="username" value="{{ d.params.username || '' }}" lay-verify="username" placeholder="请输入用户名" autocomplete="off" {{d.params.type === 'view' ? 'readonly' : ''}}>
       </script>
     </div>
   </div>
@@ -11,8 +11,8 @@
     <label class="layui-form-label">性别</label>
     <div class="layui-input-inline">
       <script type="text/html" template>
-        <input type="radio" name="sex" value="男" title="男" {{d.params.sex === 0 ? 'checked' : ''}}>
-        <input type="radio" name="sex" value="女" title="女" {{d.params.sex === 1 ? 'checked' : ''}}>
+        <input type="radio" name="sex" value="男" title="男" {{d.params.sex === 0 ? 'checked' : ''}} {{d.params.type === 'view' ? 'disabled' : ''}}>
+        <input type="radio" name="sex" value="女" title="女" {{d.params.sex === 1 ? 'checked' : ''}} {{d.params.type === 'view' ? 'disabled' : ''}}>
       </script>
     </div>
   </div>
@@ -20,7 +20,7 @@
     <label class="layui-form-label">手机</label>
     <div class="layui-input-inline">
       <script type="text/html" template>
-        <input type="text" class="layui-input" name="telphone" value="{{ d.params.telphone || '' }}" lay-verify="phone" placeholder="请输入号码" autocomplete="off">
+        <input type="text" class="layui-input" name="telphone" value="{{ d.params.telphone || '' }}" lay-verify="phone" placeholder="请输入号码" autocomplete="off" {{d.params.type === 'view' ? 'readonly' : ''}}>
       </script>
     </div>
   </div>
@@ -28,7 +28,7 @@
     <label class="layui-form-label">邮箱</label>
     <div class="layui-input-inline">
       <script type="text/html" template>
-        <input type="text" class="layui-input" name="email" value="{{ d.params.email || '' }}" lay-verify="email" placeholder="请输入邮箱" autocomplete="off">
+        <input type="text" class="layui-input" name="email" value="{{ d.params.email || '' }}" lay-verify="email" placeholder="请输入邮箱" autocomplete="off" {{d.params.type === 'view' ? 'readonly' : ''}}>
       </script>
     </div>
   </div>
@@ -36,7 +36,7 @@
     <label class="layui-form-label">城市</label>
     <div class="layui-input-inline">
       <script type="text/html" template>
-        <input type="text" class="layui-input" name="city" value="{{ d.params.city || '' }}" lay-verify="required" placeholder="城市" autocomplete="off">
+        <input type="text" class="layui-input" name="city" value="{{ d.params.city || '' }}" placeholder="城市" autocomplete="off" {{d.params.type === 'view' ? 'readonly' : ''}}>
       </script>
     </div>
   </div>
@@ -44,7 +44,8 @@
     <label class="layui-form-label">角色</label>
     <div class="layui-input-inline">
       <script type="text/html" template>
-        <select name="role">
+        <select name="role" {{d.params.type === 'view' ? 'disabled' : ''}} lay-verify="required">
+          <option value="">请选择</option>
           <option value="0" {{ d.params.role === 0 ? 'selected' : '' }}>超级管理员</option>
           <option value="1" {{ d.params.role === 1 ? 'selected' : '' }}>普通管理员</option>
           <option value="2" {{ d.params.role === 2 ? 'selected' : '' }}>客服</option>
@@ -57,15 +58,15 @@
     <label class="layui-form-label">加入时间</label>
     <div class="layui-input-block">
       <script type="text/html" template>
-        <input type="text" class="layui-input" id="joinTime" name="joinTime" value="{{d.param.joinTime}}"/>
+        <input type="text" class="layui-input" id="joinTime" name="joinTime" lay-verify="date" value="{{d.params.joinTime ? d.params.joinTime : ''}}" {{d.params.type === 'view' ? 'disabled' : ''}} placeholder="加入时间" autocomplete="off" />
       </script>
     </div>
   </div>
   <div class="layui-form-item">
-    <label class="layui-form-label">备注</label>
+    <label class="layui-form-label">签名</label>
     <div class="layui-input-block">
       <script type="text/html" template>
-        <textarea type="textarea" class="layui-textarea" name="remarks" >{{d.params.remarks}}</textarea>
+        <textarea type="textarea" class="layui-textarea" name="sign" {{d.params.type === 'view' ? 'readonly' : ''}}>{{d.params.sign ? d.params.sign : ''}}</textarea>
       </script>
     </div>
   </div>
@@ -76,3 +77,4 @@
     </div>
   </div>
 </div>
+
