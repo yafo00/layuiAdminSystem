@@ -1,0 +1,22 @@
+{
+  "code": 0,
+  "msg": "ok",
+  "data": [
+    {
+      "label": "超级管理员",
+      "value": 0
+    },
+    {
+      "label": "普通管理员",
+      "value": 1
+    },
+    {
+      "label": "运营",
+      "value": 2
+    },
+    {
+      "label": "客服",
+      "value": 3
+    }
+  ]
+}

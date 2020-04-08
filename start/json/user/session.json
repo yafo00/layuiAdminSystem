@@ -1,0 +1,14 @@
+{
+  "code": 0,
+  "msg": "",
+  "data": {
+    "username": "xianxin",
+    "nickname": "贤心",
+    "gender": 0,
+    "role": 1,
+    "cellphone": "13012345678",
+    "email": "abc@123.com",
+    "remarks": "备注内容",
+    "portrait": "http://b-ssl.duitang.com/uploads/item/201704/10/20170410095843_SEvMy.thumb.700_0.jpeg"
+  }
+}

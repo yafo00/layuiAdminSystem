@@ -45,13 +45,28 @@
       ]
     },
     {
-      "name": "table",
+      "name": "myTable",
       "title": "表格",
       "icon": "layui-icon-user",
       "list": [
         {
-          "name": "simple",
+          "name": "pageTable",
           "title": "分页数据表格"
+        }
+      ]
+    },
+    {
+      "name": "set",
+      "title": "设置",
+      "icon": "layui-icon-set",
+      "list": [
+        {
+          "name": "info",
+          "title": "基本资料"
+        },
+        {
+          "name": "password",
+          "title": "修改密码"
         }
       ]
     }

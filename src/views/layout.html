@@ -11,7 +11,7 @@
     </ul> -->
     <ul class="layui-nav layui-layout-right" lay-filter="lay-filter-header-right">
       <li class="layui-nav-item" lay-unselect>
-        <script type="text/html" template lay-url="./json/user/session.js" lay-done="layui.data.header(d)">
+        <script type="text/html" template lay-url="./json/user/session.json" lay-done="layui.data.header(d)">
           <a href="javascript:;">
             <img src="{{d.data.portrait}}" class="layui-nav-img" />
             <cite>{{ d.data.username }}</cite>
@@ -72,7 +72,7 @@
                   }
                   return '';
                 },
-                url2 = (item2.jump && typeof item2.jump === 'string') ? item2.jump : [item.name, item2.name, ''].join('/');
+                url2 = (item2.jump && typeof item2.jump === 'string') ? item2.jump : [item.name, item2.name].join('/');
             }}
               <dd data-name="{{ item2.name || '' }}"  data-jump="{{ item2.jump || '' }}" {{ classSelected2() ? ('class="'+ classSelected2() +'"') : '' }}>
                 <a href="javascript:;" {{ hasChildren2 ? '' : 'lay-href="'+ url2 +'"' }}>{{ item2.title }}</a>

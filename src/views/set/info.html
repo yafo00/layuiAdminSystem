@@ -1,0 +1,126 @@
+<title>设置我的资料</title>
+
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb">
+    <a lay-href="">主页</a>
+    <a><cite>设置</cite></a>
+    <a><cite>我的资料</cite></a>
+  </div>
+</div>
+
+<div class="layui-fluid">
+  <div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+      <div class="layui-card">
+        <div class="layui-card-header">设置我的资料</div>
+        <div class="layui-card-body">
+          <div class="layui-form" lay-filter="lay-filter-form">
+            <script type="text/html" template lay-url="./json/user/session.json?v={{ layui.admin.v }}" lay-done="layui.data.done(d)">
+              <div class="layui-form-item">
+                <label class="layui-form-label">我的角色</label>
+                <div class="layui-input-inline">
+                  <select name="role" id="role-selete" lay-filter="lay-filter-role">
+                  </select>
+                </div>
+                <div class="layui-form-mid layui-word-aux">当前角色不可更改为其它角色</div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-inline">
+                  <input type="text" class="layui-input" name="uaername" value="{{d.data.username}}" readonly />
+                </div>
+                <div class="layui-word-aux layui-form-mid">不可修改</div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">昵称</label>
+                <div class="layui-input-inline">
+                  <input type="text" class="layui-input" name="nickname" value="{{d.data.nickname}}" lay-verify="nickname" placeholder="请输入昵称" />
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">性别</label>
+                <div class="layui-input-block">
+                  <input type="radio" name="gender" value="0" title="男"  />
+                  <input type="radio" name="gender" value="1" title="女" />
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">头像</label>
+                <div class="layui-input-inline">
+                  <img style="width: 100px; height: 100px;" src="{{d.data.portrait}}" alt="头像" />
+                </div>
+                <div class="layui-input-inline" style="margin-top:20px;">
+                  <button type="button" class="layui-btn" id="avatarUpload">
+                    <i class="layui-icon layui-icon-upload"></i>
+                    上传头像
+                  </button>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">手机号</label>
+                <div class="layui-input-inline">
+                  <input type="text" class="layui-input" name="cellphone" value="{{d.data.cellphone}}" lay-verify="phone" >
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">邮箱</label>
+                <div class="layui-input-inline">
+                  <input type="text" class="layui-input" name="email" value="{{d.data.email}}" lay-verify="email">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-block">
+                  <textarea type="textarea" class="layui-textarea" name="remarks" >{{d.data.remarks}}</textarea>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <div class="layui-input-block">
+                  <button type="button" class="layui-btn" lay-submit lay-filter="lay-filter-set-info">确认修改</button>
+                </div>
+              </div>
+            </script>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  layui.use('set', layui.factory('set'))
+  layui.data.done = function (data) {
+    var $ = layui.$,
+      element = layui.element,
+      form = layui.form
+
+    // 取select数据
+    $.ajax({
+      url: './json/user/selectList.json',
+      dataType: 'json',
+      success: function (res) {
+        // console.log(res)
+        if (res.code === 0) {
+          var data = res.data
+          for (var i = 0; i < data.length; i++) {
+            var option = $('<option>').val(data[i].value).text(data[i].label)
+            if (data[i].value !== 0) {
+              option.attr('disabled', true)
+            }
+            $('#role-selete').append(option)
+          }
+          element.render('form', 'lay-filter-form')
+        }
+      },
+      error: function (err) {
+        console.log('请求出错')
+      }
+    })
+
+    // console.log(data)
+    $('input[name=gender][value=0]').attr('checked', data.data.gender === 0 ? true : false)
+    $('input[name=gender][value=1]').attr('checked', data.data.gender === 1 ? true : false)
+
+    element.render('form', 'lay-filter-form')
+  }
+</script>

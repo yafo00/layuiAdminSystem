@@ -1,0 +1,132 @@
+<title>我的表格</title>
+
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb">
+    <a lay-href="">主页</a>
+    <a><cite>我的表格</cite></a>
+    <a><cite>分页表格</cite></a>
+  </div>
+</div>
+
+<div class="layui-fluid">
+  <div class="layui-card">
+    <!-- 搜索 -->
+    <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="search-form">
+      <div class="layui-form-item">
+        <div class="layui-inline">
+          <label class="layui-form-label">登录名</label>
+          <div class="layui-input-block">
+            <input type="text" class="layui-input" name="username" placeholder="请输入登录名" />
+          </div>
+        </div>
+        <div class="layui-inline">
+          <label class="layui-form-label">手机</label>
+          <div class="layui-input-block">
+            <input type="text" class="layui-input" name="telphone" placeholder="请输入手机号" />
+          </div>
+        </div>
+        <div class="layui-inline">
+          <label class="layui-form-label">邮箱</label>
+          <div class="layui-input-block">
+            <input type="text" class="layui-input" name="email" placeholder="请输入登录名" />
+          </div>
+        </div>
+        <div class="layui-inline">
+          <label class="layui-form-label">角色</label>
+          <div class="layui-input-block">
+            <select name="role">
+              <option></option>
+              <option value="0">超级管理员</option>
+              <option value="1">普通管理员</option>
+              <option value="2">客服</option>
+              <option value="3">运营人员</option>
+            </select>
+          </div>
+        </div>
+        <div class="layui-inline">
+          <label class="layui-form-label">时间</label>
+          <div class="layui-input-block">
+            <input type="text" class="layui-input" id="myDate" name="myTime" />
+          </div>
+        </div>
+        <div class="layui-inline">
+          <button type="button" class="layui-btn" lay-submit id="search-form" lay-filter="search-form-submit">
+            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+            搜索
+          </button>
+          <button type="button" class="layui-btn" lay-submit lay-filter="search-form-refresh">
+            <i class="layui-icon layui-icon-refresh layuiadmin-button-btn"></i>
+            刷新
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- 表格 -->
+    <div class="layui-card-body">
+      <div class="layui-btn-container">
+        <button class="layui-btn btn-type" data-type="batchdel">批量删除</button>
+        <button class="layui-btn btn-type" data-type="add">添加</button>
+      </div>
+      <table id="myTable" lay-filter="lay-filter-myTable"></table>
+      <script type="text/html" id="roleTpl">
+        {{# if (d.role === 0) { }}
+          <span class="layui-badge layui-bg-green">超级管理员</span>
+        {{# } else if (d.role === 1) { }}
+          <span class="layui-badge layui-bg-blue">普通管理员</span>
+        {{# } else if (d.role === 2 ) { }}
+          <span class="layui-badge layui-bg-orange">运营人员</span>
+        {{# } else if (d.role === 3 ) { }}
+          <span class="layui-badge layui-bg-cyan">客服人员</span>
+        {{# } }}
+      </script>
+      <script type="text/html" id="myToolbar">
+        <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="detail"><i class="layui-icon layui-icon-about"></i>查看</a>
+        <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs layui-btn-normal" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+      </script>
+    </div>
+  </div>
+</div>
+
+<script>
+  layui.use('myTable', layui.factory('myTable')).use(['admin', 'form', 'myTable', 'table', 'laydate'], function () {
+    var $ = layui.$,
+      admin = layui.admin,
+      view = layui.view,
+      table = layui.table,
+      laydate = layui.laydate,
+      form = layui.form
+
+    laydate.render({
+      elem: '#myDate',
+      showBottom: false,
+      trigger: 'click'
+    })
+
+    form.render(null, 'search-form')
+
+    //监听搜索
+    form.on('submit(search-form-submit)', function (data) {
+      var field = data.field
+
+      //执行重载
+      table.reload('myTable', {
+        where: field
+      })
+    })
+
+    // 监听表头事件
+    var active = {
+      // 批量删除
+      batchdel: function () {},
+      // 添加
+      add: function () {}
+    }
+
+    // 监听表头点击事件
+    $('.layui-btn.btn-type').on('click', function () {
+      var type = $(this).data('type')
+      active[type] ? active[type].call(this) : ''
+    })
+  })
+</script>
